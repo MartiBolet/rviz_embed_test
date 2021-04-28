@@ -57,25 +57,6 @@ MyViz::MyViz(
   cell_size_slider->setValue(10);
 }
 
-QWidget *
-MyViz::getParentWindow()
-{
-  return this;
-}
-
-rviz_common::PanelDockWidget *
-MyViz::addPane(const QString & name, QWidget * pane, Qt::DockWidgetArea area, bool floating)
-{
-  // TODO(mjeronimo)
-  return nullptr;
-}
-
-void
-MyViz::setStatus(const QString & message)
-{
-  // TODO(mjeronimo)
-}
-
 void MyViz::DisplayGrid()
 {
   grid_ = manager_->createDisplay("rviz_default_plugins/Grid", "adjustable grid", true);
@@ -91,7 +72,8 @@ void MyViz::initializeRViz()
   app_->processEvents();
   render_panel_->getRenderWindow()->initialize();
   auto clock = rviz_ros_node_.lock()->get_raw_node()->get_clock();
-  manager_ = new rviz_common::VisualizationManager(render_panel_, rviz_ros_node_, this, clock);
+  rviz_common::WindowManagerInterface* wm_ = nullptr;
+  manager_ = new rviz_common::VisualizationManager(render_panel_, rviz_ros_node_, wm_, clock);
   render_panel_->initialize(manager_);
   app_->processEvents();
   manager_->initialize();
